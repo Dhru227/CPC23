@@ -5,19 +5,28 @@ using namespace std;
 
 class Solution {
 public:
-    std::vector<int> productExceptSelf(std::vector<int>& nums) {
+    vector<int> productExceptSelf(vector<int>& nums) {
         int n = nums.size();
-        std::vector<int> output(n, 1); 
+        vector<int> output;
 
-        for (int i = 1; i < n; i++) {
-            output[i] = output[i - 1] * nums[i - 1];
+        if (n < 1)
+            return output;
+
+        int product = 1;
+
+        for (int i = 0; i < n; ++i) {
+            product *= nums[i];
+            output.push_back(product);
         }
 
-        int right = 1;
-        for (int i = n - 1; i >= 0; i--) {
-            output[i] *= right;
-            right *= nums[i];
+        product = 1;
+
+        for (int i = n - 1; i > 0; --i) {
+            output[i] = output[i - 1] * product;
+            product *= nums[i];
         }
+
+        output[0] = product;
 
         return output;
     }
@@ -26,19 +35,20 @@ public:
 int main() {
     Solution solution;
 
+    vector<int> nums = {1, 2, 3, 4};
+    vector<int> result = solution.productExceptSelf(nums);
 
-    vector<int> input = {1, 2, 3, 4};
-    vector<int> result = solution.productExceptSelf(input);
-
-    cout << "Input: ";
-    for (int num : input) {
-        std::cout << num << " ";
+    cout << "Input Array: ";
+    for (int num : nums) {
+        cout << num << " ";
     }
-    cout << "\nOutput: ";
+    cout << endl;
+
+    cout << "Output Array: ";
     for (int num : result) {
-        std::cout << num << " ";
+        cout << num << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
 
     return 0;
 }
